@@ -86,11 +86,17 @@ const routes: RouteRecordRaw[] = [
     name: 'Modal',
     component: Modal,
   },
-  // {
-  //   path: '/blank',
-  //   name: 'Blank',
-  //   component: Blank,
-  // },
+  {
+    path: '/blank',
+    name: 'Blank',
+    component: Blank,
+  },
+
+  {
+    path: '/login',
+    name: 'Login',
+    component: Blank,
+  },
 ]
 
 const router = createRouter({
