@@ -14,6 +14,8 @@ import RolList from './views/roles/rolList.vue'
 import ClienteList from './views/clientes/clienteList.vue'
 import VehiculoList from './views/vehiculos/vehiculoList.vue'
 import ViajeList from './views/viajes/viajeList.vue'
+import ChoferList from './views/chofer/choferList.vue'
+import ProgramacionList from './views/programacion/programacionList.vue'
 import EncomiendaList from './views/encomiendas/encomiendaList.vue'
 
 const routes: RouteRecordRaw[] = [
@@ -44,9 +46,20 @@ const routes: RouteRecordRaw[] = [
     component: VehiculoList,
   },
   {
+    path: '/choferList',
+    name: 'choferList',
+    component: ChoferList,
+  },
+  {
     path: '/viajeList',
     name: 'viajeList',
     component: ViajeList,
+  },
+
+  {
+    path: '/programacionList',
+    name: 'programacionList',
+    component: ProgramacionList,
   },
 
   {

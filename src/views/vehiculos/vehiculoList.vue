@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col mt-8">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl font-semibold">Gestión de Vehículos</h2>
+        <h2 class="text-2xl font-semibold">Listado de Vehículos</h2>
         <button @click="openRegisterModal" class="px-4 py-2 text-white bg-[#0369a1] hover:bg-[#0369a1] rounded">
           <i class="fas fa-plus"></i> Registrar Vehículo
         </button>
@@ -149,22 +149,70 @@
     data() {
       return {
         vehicles: [
-          {
-            idVehiculo: '1',
-            placa: 'ABC123',
-            marca: 'Toyota',
-            modelo: 'Hilux',
-            capacidad: '5',
-            tipo: 'Camión'
-          },
-          {
-            idVehiculo: '2',
-            placa: 'XYZ456',
-            marca: 'Mercedes-Benz',
-            modelo: 'Sprinter',
-            capacidad: '15',
-            tipo: 'Furgoneta'
-          }
+        {
+    idVehiculo: '1',
+    placa: 'ABC123',
+    marca: 'Toyota',
+    modelo: 'Hilux',
+    capacidad: '5',
+    tipo: 'Camión'
+  },
+  {
+    idVehiculo: '2',
+    placa: 'XYZ456',
+    marca: 'Mercedes-Benz',
+    modelo: 'Sprinter',
+    capacidad: '15',
+    tipo: 'Furgoneta'
+  },
+  {
+    idVehiculo: '3',
+    placa: 'LMN789',
+    marca: 'Ford',
+    modelo: 'Ranger',
+    capacidad: '5',
+    tipo: 'Camión'
+  },
+  {
+    idVehiculo: '4',
+    placa: 'QRS234',
+    marca: 'Nissan',
+    modelo: 'NV350',
+    capacidad: '12',
+    tipo: 'Furgoneta'
+  },
+  {
+    idVehiculo: '5',
+    placa: 'TUV567',
+    marca: 'Chevrolet',
+    modelo: 'Express',
+    capacidad: '10',
+    tipo: 'Furgoneta'
+  },
+  {
+    idVehiculo: '6',
+    placa: 'WXY890',
+    marca: 'Mitsubishi',
+    modelo: 'L200',
+    capacidad: '5',
+    tipo: 'Camión'
+  },
+  {
+    idVehiculo: '7',
+    placa: 'JKL345',
+    marca: 'Isuzu',
+    modelo: 'D-Max',
+    capacidad: '5',
+    tipo: 'Camión'
+  },
+  {
+    idVehiculo: '8',
+    placa: 'EFG678',
+    marca: 'Renault',
+    modelo: 'Master',
+    capacidad: '15',
+    tipo: 'Furgoneta'
+  },
         ],
         newVehicleData: {
           idVehiculo: '',

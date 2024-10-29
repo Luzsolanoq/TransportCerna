@@ -141,12 +141,12 @@ defineOptions({
           </router-link>
 
           <router-link class="flex items-center block px-6 py-2 text-white hover:bg-[#E7504D] rounded"
-            :class="[$route.name === 'Otros' ? 'bg-[#E7504D]' : '']" to="/otros">
+            :class="[$route.name === 'choferList' ? 'bg-[#E7504D]' : '']" to="/choferList">
             <svg class="h-5 w-5 text-stone-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">  
               <polyline points="23 4 23 10 17 10" />  
               <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
             </svg>
-            <span class="mx-4 text-sidebar-span">Otros</span>
+            <span class="mx-4 text-sidebar-span">Choferes</span>
           </router-link>
         </div>
 
@@ -196,13 +196,13 @@ defineOptions({
           </router-link>
 
           <router-link class="block flex items-center px-6 py-2 text-white hover:bg-[#E7504D] rounded"
-            :class="[$route.name === 'Otros' ? 'bg-[#E7504D]' : '']" to="/otros">
+            :class="[$route.name === 'programacionList' ? 'bg-[#E7504D]' : '']" to="/programacionList">
             <svg class="h-5 w-5 text-stone-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M14 2H6a2 2 0 00-2 2v6h2V4h8V2z" />
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 10v2a2 2 0 002 2h8a2 2 0 002-2v-2H4z" />
               <path stroke-linecap="round" stroke-linejoin="round" d="M20 10v8a2 2 0 01-2 2H6a2 2 0 01-2-2v-8h16z" />
             </svg>
-            <span class="mx-4 text-sidebar-span">Otros</span>
+            <span class="mx-4 text-sidebar-span">Pasajes</span>
           </router-link>
         </div> 
 

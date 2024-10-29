@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col mt-8">
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl font-semibold">Gestión de Clientes</h2>
+        <h2 class="text-2xl font-semibold">Listado de Clientes</h2>
         <button @click="openRegisterModal" class="px-4 py-2 text-white bg-[#0369a1] hover:bg-[#0369a1] rounded">
           <i class="fas fa-plus"></i> Agregar Cliente
         </button>
@@ -143,8 +143,16 @@
     data() {
       return {
         clientes: [
-          { id: 1, nombre: 'Juan', apellidos: 'Perez', dni: '12345678', direccion: 'Calle 123', celular: '987654321' },
-          { id: 2, nombre: 'Maria', apellidos: 'Lopez', dni: '87654321', direccion: 'Avenida 456', celular: '912345678'}
+        { id: 1, nombre: 'Juan', apellidos: 'Perez', dni: '12345678', direccion: 'Calle 123', celular: '987654321' },
+        { id: 2, nombre: 'Maria', apellidos: 'Lopez', dni: '87654321', direccion: 'Avenida 456', celular: '912345678' },
+        { id: 3, nombre: 'Carlos', apellidos: 'Gonzalez', dni: '23456789', direccion: 'Boulevard 789', celular: '945678123' },
+        { id: 4, nombre: 'Ana', apellidos: 'Fernandez', dni: '34567890', direccion: 'Calle Falsa 101', celular: '987123456' },
+        { id: 5, nombre: 'Luis', apellidos: 'Martinez', dni: '45678901', direccion: 'Pasaje 202', celular: '963258741' },
+        { id: 6, nombre: 'Sofia', apellidos: 'Ramirez', dni: '56789012', direccion: 'Plaza Central 303', celular: '874512369' },
+        { id: 7, nombre: 'Jorge', apellidos: 'Hernandez', dni: '67890123', direccion: 'Calle 404', celular: '756789012' },
+        { id: 8, nombre: 'Laura', apellidos: 'Castillo', dni: '78901234', direccion: 'Avenida del Sol 505', celular: '654321987' },
+        { id: 9, nombre: 'Pedro', apellidos: 'Morales', dni: '89012345', direccion: 'Calle de la Paz 606', celular: '543210123' },
+        { id: 10, nombre: 'Clara', apellidos: 'Diaz', dni: '90123456', direccion: 'Calle Larga 707', celular: '321654987' }
         ],
         newClienteData: {
           nombre: '',
