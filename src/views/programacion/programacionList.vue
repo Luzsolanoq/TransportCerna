@@ -1,339 +1,281 @@
 <template>
-    <div class="flex flex-col mt-8">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl font-semibold">Gestión de Programaciones</h2>
-        <button @click="openRegisterModal" class="px-4 py-2 text-white bg-[#0369a1] hover:bg-[#0369a1] rounded">
-          <i class="fas fa-plus"></i> Registrar Programación
-        </button>
-      </div>
-      <div class="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-        <div class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead>
-              <tr>
-                <th class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-800 uppercase bg-gray-50 border-b border-gray-200">
-                  Cliente
-                </th>
-                <th class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-800 uppercase bg-gray-50 border-b border-gray-200">
-                  Fecha y Hora
-                </th>
-                <th class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-800 uppercase bg-gray-50 border-b border-gray-200">
-                  Precio Total (con IGV)
-                </th>
-                <th class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-800 uppercase bg-gray-50 border-b border-gray-200">
-                  Tipo
-                </th>
-                <th class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-800 uppercase bg-gray-50 border-b border-gray-200">
-                  Destino
-                </th>
-                <th class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-800 uppercase bg-gray-50 border-b border-gray-200">
-                  Conductor
-                </th>
-                <th class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-800 uppercase bg-gray-50 border-b border-gray-200">
-                  Vehículo
-                </th>
-                <th class="px-8 py-3 text-xs font-medium leading-4 tracking-wider text-center text-gray-800 uppercase bg-gray-50 border-b border-gray-200">
-                  Acciones
-                </th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="(programacion, index) in programaciones" :key="index">
-                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                  {{ programacion.cliente }}
-                </td>
-                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                  {{ programacion.fechaHora }}
-                </td>
-                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                  {{ programacion.precioTotal }}
-                </td>
-                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                  {{ programacion.tipo }}
-                </td>
-                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                  {{ programacion.destino }}
-                </td>
-                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                  {{ programacion.conductor }}
-                </td>
-                <td class="px-6 py-4 border-b border-gray-200 whitespace-nowrap">
-                  {{ programacion.vehiculo }}
-                </td>
-                <td class="px-8 py-4 text-sm font-medium leading-5 text-center border-b border-gray-200 whitespace-nowrap">
-                  <button @click="openEditModal(index)" class="px-3 py-2 text-white bg-[#0369a1] hover:bg-[#0369a1] rounded">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button @click="openDeleteModal(index)" class="ml-4 px-3 py-2 text-white bg-red-600 hover:bg-red-700 rounded">
-                    <i class="fas fa-trash-alt"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+  <div class="container mx-auto mt-8 p-6 bg-white shadow-md rounded-lg">
+    <h1 class="text-3xl font-bold mb-6">Gestión de Viajes</h1>
+
+    <!-- Sección Cliente -->
+    <div class="mb-8">
+      <h2 class="text-2xl font-semibold mb-4">Sección Cliente</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="clientNombre" class="block text-sm font-medium text-gray-700">Nombre Cliente:</label>
+          <input
+            id="clientNombre"
+            type="text"
+            v-model="client.nombre"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
         </div>
-      </div>
-  
-      <!-- Modal para registrar programación -->
-      <div v-if="isRegisterModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-        <div class="bg-white rounded-lg p-8">
-          <h3 class="text-lg font-semibold mb-4">Registrar Programación</h3>
-          <form @submit.prevent="registerProgramacion">
-            <div class="mb-4">
-              <label for="cliente" class="block text-sm font-medium text-gray-700">Cliente</label>
-              <input v-model="newProgramacion.cliente" id="cliente" type="text" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Ingrese el nombre del cliente" />
-            </div>
-            <div class="mb-4">
-              <label for="fechaHora" class="block text-sm font-medium text-gray-700">Fecha y Hora</label>
-              <input v-model="newProgramacion.fechaHora" id="fechaHora" type="datetime-local" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" />
-            </div>
-            <div class="mb-4">
-              <label for="precioTotal" class="block text-sm font-medium text-gray-700">Precio Total (con IGV)</label>
-              <input v-model="newProgramacion.precioTotal" id="precioTotal" type="number" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Ingrese el precio total" />
-            </div>
-            <div class="mb-4">
-              <label for="tipo" class="block text-sm font-medium text-gray-700">Tipo</label>
-              <select v-model="newProgramacion.tipo" id="tipo" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
-                <option value="" disabled>Seleccione un tipo</option>
-                <option value="Tipo 1">Tipo 1</option>
-                <option value="Tipo 2">Tipo 2</option>
-                <option value="Tipo 3">Tipo 3</option>
-              </select>
-            </div>
-            <div class="mb-4">
-              <label for="destino" class="block text-sm font-medium text-gray-700">Destino</label>
-              <input v-model="newProgramacion.destino" id="destino" type="text" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Ingrese el destino" />
-            </div>
-            <div class="mb-4">
-              <label for="conductor" class="block text-sm font-medium text-gray-700">Conductor</label>
-              <input v-model="newProgramacion.conductor" id="conductor" type="text" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Ingrese el nombre del conductor" />
-            </div>
-            <div class="mb-4">
-              <label for="vehiculo" class="block text-sm font-medium text-gray-700">Vehículo</label>
-              <input v-model="newProgramacion.vehiculo" id="vehiculo" type="text" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Ingrese el vehículo" />
-            </div>
-            <div class="flex justify-end">
-              <button type="button" @click="closeRegisterModal" class="mr-4 px-4 py-2 bg-gray-300 text-gray-800 rounded">Cancelar</button>
-              <button type="submit" class="px-4 py-2 bg-[#0369a1] text-white rounded">Registrar</button>
-            </div>
-          </form>
+        <div>
+          <label for="clientDni" class="block text-sm font-medium text-gray-700">DNI:</label>
+          <input
+            id="clientDni"
+            type="text"
+            v-model="client.dni"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
         </div>
-      </div>
-  
-      <!-- Modal para editar programación -->
-      <div v-if="isEditModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-        <div class="bg-white rounded-lg p-8">
-          <h3 class="text-lg font-semibold mb-4">Editar Programación</h3>
-          <form @submit.prevent="updateProgramacion">
-            <div class="mb-4">
-              <label for="edit-cliente" class="block text-sm font-medium text-gray-700">Cliente</label>
-              <input v-model="editProgramacion.cliente" id="edit-cliente" type="text" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Ingrese el nombre del cliente" />
-            </div>
-            <div class="mb-4">
-              <label for="edit-fechaHora" class="block text-sm font-medium text-gray-700">Fecha y Hora</label>
-              <input v-model="editProgramacion.fechaHora" id="edit-fechaHora" type="datetime-local" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" />
-            </div>
-            <div class="mb-4">
-              <label for="edit-precioTotal" class="block text-sm font-medium text-gray-700">Precio Total (con IGV)</label>
-              <input v-model="editProgramacion.precioTotal" id="edit-precioTotal" type="number" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Ingrese el precio total" />
-            </div>
-            <div class="mb-4">
-              <label for="edit-tipo" class="block text-sm font-medium text-gray-700">Tipo</label>
-              <select v-model="editProgramacion.tipo" id="edit-tipo" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200">
-                <option value="" disabled>Seleccione un tipo</option>
-                <option value="Tipo 1">Tipo 1</option>
-                <option value="Tipo 2">Tipo 2</option>
-                <option value="Tipo 3">Tipo 3</option>
-              </select>
-            </div>
-            <div class="mb-4">
-              <label for="edit-destino" class="block text-sm font-medium text-gray-700">Destino</label>
-              <input v-model="editProgramacion.destino" id="edit-destino" type="text" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Ingrese el destino" />
-            </div>
-            <div class="mb-4">
-              <label for="edit-conductor" class="block text-sm font-medium text-gray-700">Conductor</label>
-              <input v-model="editProgramacion.conductor" id="edit-conductor" type="text" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Ingrese el nombre del conductor" />
-            </div>
-            <div class="mb-4">
-              <label for="edit-vehiculo" class="block text-sm font-medium text-gray-700">Vehículo</label>
-              <input v-model="editProgramacion.vehiculo" id="edit-vehiculo" type="text" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200" placeholder="Ingrese el vehículo" />
-            </div>
-            <div class="flex justify-end">
-              <button type="button" @click="closeEditModal" class="mr-4 px-4 py-2 bg-gray-300 text-gray-800 rounded">Cancelar</button>
-              <button type="submit" class="px-4 py-2 bg-[#0369a1] text-white rounded">Actualizar</button>
-            </div>
-          </form>
+        <div>
+          <label for="clientTelefono" class="block text-sm font-medium text-gray-700">Teléfono:</label>
+          <input
+            id="clientTelefono"
+            type="text"
+            v-model="client.telefono"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+          />
         </div>
-      </div>
-  
-      <!-- Modal para eliminar programación -->
-      <div v-if="isDeleteModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-        <div class="bg-white rounded-lg p-8">
-          <h3 class="text-lg font-semibold mb-4">Eliminar Programación</h3>
-          <p>¿Estás seguro de que deseas eliminar esta programación?</p>
-          <div class="flex justify-end mt-6">
-            <button type="button" @click="closeDeleteModal" class="mr-4 px-4 py-2 bg-gray-300 text-gray-800 rounded">Cancelar</button>
-            <button @click="deleteProgramacion" class="px-4 py-2 bg-red-600 text-white rounded">Eliminar</button>
-          </div>
+        <div>
+          <label for="clientDireccion" class="block text-sm font-medium text-gray-700">Dirección:</label>
+          <input
+            id="clientDireccion"
+            type="text"
+            v-model="client.direccion"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+          />
+        </div>
+        <div class="col-span-2">
+          <label for="clientTipo" class="block text-sm font-medium text-gray-700">Tipo de Cliente:</label>
+          <select
+            id="clientTipo"
+            v-model="client.tipo"
+            @change="toggleEmpresa"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+          >
+            <option value="natural">Natural</option>
+            <option value="empresa">Empresa</option>
+          </select>
+        </div>
+
+        <div v-if="isEmpresa" class="col-span-2">
+          <label for="empresaNombre" class="block text-sm font-medium text-gray-700">Nombre de la Empresa:</label>
+          <input
+            id="empresaNombre"
+            type="text"
+            v-model="client.empresaNombre"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
         </div>
       </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        programaciones: [
-    {
-        cliente: 'Juan Pérez',
-        fechaHora: '2024-10-30T10:00:00Z',
-        precioTotal: '150.00',
-        tipo: 'Transporte de Clientes',
-        destino: 'Trujillo',
-        conductor: 'Carlos López',
-        vehiculo: 'Toyota Hiace',
-        observaciones: 'Recoger en la estación central'
-    },
-    {
-        cliente: 'María Gómez',
-        fechaHora: '2024-10-30T12:00:00Z',
-        precioTotal: '200.00',
-        tipo: 'Encomienda',
-        destino: 'Lima',
-        conductor: 'José Martínez',
-        vehiculo: 'Furgoneta Mercedes',
-        observaciones: 'Entregar en la oficina principal'
-    },
-    {
-        cliente: 'Pedro Sánchez',
-        fechaHora: '2024-10-31T09:00:00Z',
-        precioTotal: '100.00',
-        tipo: 'Transporte de Clientes',
-        destino: 'Arequipa',
-        conductor: 'Ana Torres',
-        vehiculo: 'Nissan Urvan',
-        observaciones: 'Recoger en el hotel'
-    },
-    {
-        cliente: 'Laura Fernández',
-        fechaHora: '2024-10-31T14:00:00Z',
-        precioTotal: '180.00',
-        tipo: 'Transporte de Clientes',
-        destino: 'Piura',
-        conductor: 'Luis Ramírez',
-        vehiculo: 'Hyundai H1',
-        observaciones: 'Esperar en la recepción'
-    },
-    {
-        cliente: 'Luis Álvarez',
-        fechaHora: '2024-11-01T11:00:00Z',
-        precioTotal: '220.00',
-        tipo: 'Encomienda',
-        destino: 'Chiclayo',
-        conductor: 'Fernando Reyes',
-        vehiculo: 'Camión Isuzu',
-        observaciones: 'Carga frágil, manejar con cuidado'
-    },
-    {
-        cliente: 'Sofía Castillo',
-        fechaHora: '2024-11-01T16:00:00Z',
-        precioTotal: '250.00',
-        tipo: 'Transporte de Clientes',
-        destino: 'Cusco',
-        conductor: 'Roberto Torres',
-        vehiculo: 'Sprinter Mercedes',
-        observaciones: 'Recoger en el aeropuerto'
-    },
-    {
-        cliente: 'Ricardo Méndez',
-        fechaHora: '2024-11-02T08:00:00Z',
-        precioTotal: '120.00',
-        tipo: 'Encomienda',
-        destino: 'Huaraz',
-        conductor: 'Diego Salas',
-        vehiculo: 'Furgoneta Volkswagen',
-        observaciones: 'Entregar antes de las 12 PM'
-    },
-    {
-        cliente: 'Elena Vargas',
-        fechaHora: '2024-11-02T13:00:00Z',
-        precioTotal: '300.00',
-        tipo: 'Transporte de Clientes',
-        destino: 'Tacna',
-        conductor: 'Gustavo León',
-        vehiculo: 'Bus Marcopolo',
-        observaciones: 'Viaje de larga distancia'
-    }
-],
 
-        newProgramacion: {
-          cliente: '',
-          fechaHora: '',
-          precioTotal: '',
-          tipo: '',
-          destino: '',
-          conductor: '',
-          vehiculo: ''
-        },
-        editProgramacion: {},
-        selectedProgramacionIndex: null,
-        isRegisterModalOpen: false,
-        isEditModalOpen: false,
-        isDeleteModalOpen: false
-      };
-    },
-    methods: {
-      openRegisterModal() {
-        this.isRegisterModalOpen = true;
-      },
-      closeRegisterModal() {
-        this.isRegisterModalOpen = false;
-        this.resetNewProgramacion();
-      },
-      registerProgramacion() {
-        this.programaciones.push({ ...this.newProgramacion });
-        this.closeRegisterModal();
-      },
-      openEditModal(index) {
-        this.selectedProgramacionIndex = index;
-        this.editProgramacion = { ...this.programaciones[index] };
-        this.isEditModalOpen = true;
-      },
-      closeEditModal() {
-        this.isEditModalOpen = false;
-      },
-      updateProgramacion() {
-        this.programaciones.splice(this.selectedProgramacionIndex, 1, this.editProgramacion);
-        this.closeEditModal();
-      },
-      openDeleteModal(index) {
-        this.selectedProgramacionIndex = index;
-        this.isDeleteModalOpen = true;
-      },
-      closeDeleteModal() {
-        this.isDeleteModalOpen = false;
-      },
-      deleteProgramacion() {
-        this.programaciones.splice(this.selectedProgramacionIndex, 1);
-        this.closeDeleteModal();
-      },
-      resetNewProgramacion() {
-        this.newProgramacion = {
-          cliente: '',
-          fechaHora: '',
-          precioTotal: '',
-          tipo: '',
-          destino: '',
-          conductor: '',
-          vehiculo: ''
-        };
+    <!-- Sección Pasaje -->
+    <div class="mb-8">
+      <h2 class="text-2xl font-semibold mb-4">Sección Pasaje</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="viajeFecha" class="block text-sm font-medium text-gray-700">Fecha del Viaje:</label>
+          <input
+            id="viajeFecha"
+            type="date"
+            v-model="viaje.fecha"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div>
+          <label for="viajeHora" class="block text-sm font-medium text-gray-700">Hora del Viaje:</label>
+          <input
+            id="viajeHora"
+            type="time"
+            v-model="viaje.hora"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div>
+          <label for="viajeCosto" class="block text-sm font-medium text-gray-700">Costo del Pasaje:</label>
+          <input
+            id="viajeCosto"
+            type="number"
+            v-model="viaje.costo"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div>
+          <label for="viajeEstado" class="block text-sm font-medium text-gray-700">Estado:</label>
+          <select
+            id="viajeEstado"
+            v-model="viaje.estado"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          >
+            <option value="pendiente">Pendiente</option>
+            <option value="confirmado">Confirmado</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+        </div>
+        <div class="col-span-2">
+          <button @click="bookPasaje" class="px-4 py-2 bg-red-600 text-white rounded">Reservar Pasaje</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección Encomienda -->
+    <div>
+      <h2 class="text-2xl font-semibold mb-4">Sección Encomienda</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="encomiendaDestinatario" class="block text-sm font-medium text-gray-700">Destinatario:</label>
+          <input
+            id="encomiendaDestinatario"
+            type="text"
+            v-model="encomienda.destinatario"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div>
+          <label for="encomiendaTelefono" class="block text-sm font-medium text-gray-700">Teléfono Destinatario:</label>
+          <input
+            id="encomiendaTelefono"
+            type="text"
+            v-model="encomienda.telefono"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div>
+          <label for="encomiendaDescripcion" class="block text-sm font-medium text-gray-700">Descripción:</label>
+          <input
+            id="encomiendaDescripcion"
+            type="text"
+            v-model="encomienda.descripcion"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div>
+          <label for="encomiendaCosto" class="block text-sm font-medium text-gray-700">Costo de Encomienda:</label>
+          <input
+            id="encomiendaCosto"
+            type="number"
+            v-model="encomienda.costo"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div class="col-span-2">
+          <button @click="sendEncomienda" class="px-4 py-2 bg-red-600 text-white rounded">Enviar Encomienda</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de Cobro -->
+    <div class="mt-6">
+      <h2 class="text-2xl font-semibold mb-4">Sección de Cobro</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="cobroMonto" class="block text-sm font-medium text-gray-700">Monto Total a Cobrar:</label>
+          <input
+            id="cobroMonto"
+            type="number"
+            v-model="cobro.monto"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+            required
+          />
+        </div>
+        <div>
+          <label for="cobroFecha" class="block text-sm font-medium text-gray-700">Fecha de Cobro:</label>
+          <input
+            id="cobroFecha"
+            type="date"
+            v-model="cobro.fecha"
+            class="mt-1 block w-full border border-gray-300 rounded-md p-2"
+          />
+        </div>
+        <div class="col-span-2">
+          <button @click="processCobro" class="px-4 py-2 bg-red-600 text-white rounded">Procesar Cobro</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref } from "vue";
+
+export default defineComponent({
+  setup() {
+    const client = ref({
+      nombre: '',
+      dni: '',
+      telefono: '',
+      direccion: '',
+      tipo: 'natural',
+      empresaNombre: '',
+    });
+
+    const isEmpresa = ref(false);
+
+    const viaje = ref({
+      fecha: '',
+      hora: '',
+      costo: 0,
+      estado: 'pendiente',
+    });
+
+    const encomienda = ref({
+      destinatario: '',
+      telefono: '',
+      descripcion: '',
+      costo: 0,
+    });
+
+    const cobro = ref({
+      monto: 0,
+      fecha: '',
+    });
+
+    const toggleEmpresa = () => {
+      isEmpresa.value = client.value.tipo === 'empresa';
+      if (!isEmpresa.value) {
+        client.value.empresaNombre = '';
       }
-    }
-  };
-  </script>
-  
-  <style scoped>
-  /* Estilos opcionales */
-  </style>
-  
+    };
+
+    const bookPasaje = () => {
+      // Lógica para reservar pasaje
+      console.log('Pasaje reservado:', viaje.value);
+    };
+
+    const sendEncomienda = () => {
+      // Lógica para enviar encomienda
+      console.log('Encomienda enviada:', encomienda.value);
+    };
+
+    const processCobro = () => {
+      // Lógica para procesar cobro
+      console.log('Cobro procesado:', cobro.value);
+    };
+
+    return {
+      client,
+      isEmpresa,
+      viaje,
+      encomienda,
+      cobro,
+      toggleEmpresa,
+      bookPasaje,
+      sendEncomienda,
+      processCobro,
+    };
+  },
+});
+</script>
+
+<style scoped>
+/* Personaliza estilos aquí */
+</style>
